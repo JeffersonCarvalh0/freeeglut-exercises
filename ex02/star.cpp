@@ -1,13 +1,13 @@
 # include <GL/glut.h>
 
-# define WIDTH 256
-# define HEIGHT 256
+# define WIDTH 512
+# define HEIGHT 512
 
 using namespace std;
 
 void init() {
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glOrtho(0, 256, 0, 256, -1, 1);
+    glOrtho(0, WIDTH, 0, HEIGHT, -1, 1);
 }
 
 /**
