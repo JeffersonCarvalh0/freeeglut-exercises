@@ -30,7 +30,7 @@ void star(int size, int x, int y) {
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 1.0, 1.0);
-    star(100, WIDTH / 2, HEIGHT / 2);
+    star(150, WIDTH / 2, HEIGHT / 2);
     glFlush();
 }
 
