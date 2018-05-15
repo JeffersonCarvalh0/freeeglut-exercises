@@ -1,3 +1,6 @@
 *.o
 name
 star
+board
+tetris
+house
