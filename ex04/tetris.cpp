@@ -78,8 +78,8 @@ int main(int argc, char **argv) {
     glutInitWindowSize(WIDTH, HEIGHT);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Board");
-    init();
     glutDisplayFunc(display);
+    init();
     glutMainLoop();
 
     return 0;
