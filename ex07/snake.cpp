@@ -30,17 +30,18 @@ void Snake::grow() {
     cout << "Snake grew to size " << body.size() << '\n';
 }
 
-void Snake::move(Direction new_direction) {
+bool Snake::move(Direction new_direction) {
     SnakeSquare head = body.back();
     SnakeSquare new_head(head.x, head.y, new_direction);
     switch(new_direction) {
-        case UP: if (head.direction == DOWN) return; new_head.y = (new_head.y + 1) % field_height; break;
-        case DOWN: if (head.direction == UP) return; new_head.y = (new_head.y - 1) % field_height; break;
-        case LEFT: if (head.direction == RIGHT) return; new_head.x = (new_head.x - 1) % field_width; break;
-        case RIGHT: if (head.direction == LEFT) return; new_head.x = (new_head.x + 1) % field_width; break;
+        case UP: if (head.direction == DOWN) return false; new_head.y = (new_head.y + 1) % field_height; break;
+        case DOWN: if (head.direction == UP) return false; new_head.y = (new_head.y - 1) % field_height; break;
+        case LEFT: if (head.direction == RIGHT) return false; new_head.x = (new_head.x - 1) % field_width; break;
+        case RIGHT: if (head.direction == LEFT) return false; new_head.x = (new_head.x + 1) % field_width; break;
     }
     body.push_back(new_head);
     body.pop_front();
     for (auto it = body.begin(); next(it) != body.end(); ++it) it->direction = next(it)->direction;
     cout << "Snake moved to " << new_head.x << ' ' << new_head.y << '\n';
+    return true;
 }

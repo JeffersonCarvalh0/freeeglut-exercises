@@ -27,25 +27,22 @@ void Field::spawnSnake() {
 void Field::refresh(Direction direction) {
     int prev_x = snake->getBody().back().x, prev_y = snake->getBody().back().y;
     int prev_tail_x = snake->getBody().front().x, prev_tail_y = snake->getBody().front().y;
-    matrix[prev_tail_y][prev_tail_x] = 0;
-    snake->move(direction);
-    int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
-
-    if (matrix[new_y][new_x] == -1) {
-        snake->grow();
-        spawnFood();
-    } else if (matrix[new_y][new_x] == 1) {
-        reset();
-        return;
-    } else {
+    if (snake->move(direction)) {
         matrix[prev_tail_y][prev_tail_x] = 0;
-    }
-    matrix[new_y][new_x] = 2;
-    matrix[prev_y][prev_x] = 1;
-    cout << "Field refreshed.\n";
+        int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
 
-    cout << "prev_tail_x: " << prev_tail_x << '\n';
-    cout << "prev_tail_y: " << prev_tail_y << '\n';
+        if (matrix[new_y][new_x] == -1) {
+            snake->grow();
+            spawnFood();
+        } else if (matrix[new_y][new_x] == 1) {
+            reset();
+            return;
+        }
+
+        matrix[new_y][new_x] = 2;
+        matrix[prev_y][prev_x] = 1;
+        cout << "Field refreshed.\n";
+    }
 }
 
 void Field::spawnFood() {

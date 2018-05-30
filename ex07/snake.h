@@ -19,7 +19,7 @@ public:
     Snake(int field_width, int field_height, int initial_size = 5);
     const std::list<SnakeSquare>& getBody();
     void grow();
-    void move(Direction new_direction);
+    bool move(Direction new_direction);
 };
 
 # endif /* end of include guard: SNAKE_H */
