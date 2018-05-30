@@ -18,7 +18,7 @@ private:
 public:
     Snake(int field_width, int field_height, int initial_size = 5);
     const std::list<SnakeSquare>& getBody();
-    void grow();
+    void grow(int x, int y, Direction direction);
     bool move(Direction new_direction);
 };
 

@@ -27,13 +27,14 @@ void Field::spawnSnake() {
 void Field::refresh(Direction direction) {
     int prev_x = snake->getBody().back().x, prev_y = snake->getBody().back().y;
     int prev_tail_x = snake->getBody().front().x, prev_tail_y = snake->getBody().front().y;
+    Direction prev_tail_direction = snake->getBody().front().direction;
 
     if (snake->move(direction)) {
         matrix[prev_tail_y][prev_tail_x] = 0;
         int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
 
         if (matrix[new_y][new_x] == -1) {
-            snake->grow();
+            snake->grow(prev_tail_x, prev_tail_y, prev_tail_direction);
             spawnFood();
         } else if (matrix[new_y][new_x] == 1) {
             reset();
