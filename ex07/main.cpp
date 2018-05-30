@@ -1,10 +1,9 @@
-# include "utils.h"
+# include "defs.h"
 # include "snake.h"
 # include "field.h"
 # include <GL/glut.h>
 # include <iostream>
 
-Direction new_direction = RIGHT;
 Field field;
 
 void init() {
@@ -25,25 +24,31 @@ void drawSquare(int x, int y, int size, float *color) {
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     float cyan[3] = { 0.0, 1.0, 1.0 };
+    float dark_cyan[3] = { 0.0, 0.7, 0.7 };
     float red[3] = { 1.0, 0.0, 0.0 };
 
     for (int i = 0; i < field.getHeight(); ++i) {
         for (int j = 0; j < field.getWidth(); ++j) {
-            if (field[i][j] == -1) drawSquare(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, red);
-            else if (field[i][j] != 0) drawSquare(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, cyan);
+            float *cur_color;
+            switch (field[i][j]) {
+                case -1: cur_color = red; break;
+                case 1: cur_color = cyan; break;
+                case 2: cur_color = dark_cyan; break;
+            }
+            if (field[i][j] == -1 || field[i][j] == 1 || field[i][j] == 2)
+                drawSquare(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, cur_color);
         }
     }
-
-    field.refresh(new_direction);
     glFlush();
 }
 
 void keyPressed(unsigned char key, int x, int y) {
     switch (key) {
-        case 'w': new_direction = UP; break;
-        case 'a': new_direction = LEFT; break;
-        case 's': new_direction = DOWN; break;
-        case 'd': new_direction = RIGHT; break;
+        case 'w': field.refresh(UP); break;
+        case 'a': field.refresh(LEFT); break;
+        case 's': field.refresh(DOWN); break;
+        case 'd': field.refresh(RIGHT); break;
+        case 'r': field.reset(); break;
     }
     glutPostRedisplay();
 }

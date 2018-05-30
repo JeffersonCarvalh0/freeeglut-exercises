@@ -1,7 +1,7 @@
 # ifndef SNAKE_H
 # define SNAKE_H
 
-# include "utils.h"
+# include "defs.h"
 # include <list>
 
 struct SnakeSquare {

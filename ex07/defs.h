@@ -1,5 +1,5 @@
-# ifndef UTILS_H
-# define UTILS_H
+# ifndef DEFS_H
+# define DEFS_H
 
 const int WIDTH = 800;
 const int HEIGHT = 600;

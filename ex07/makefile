@@ -4,11 +4,11 @@ CXXFLAGS = -std=c++11
 OBJ = main.o field.o snake.o
 
 main: main.cpp $(OBJ)
-	$(CXX) $(CXXFLAGS) $(OBJ) -o $@ $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $@ $(LDLIBS) -g
 
-main.o: main.cpp field.h snake.h utils.h
-field.o: field.cpp field.h snake.h utils.h
-snake.o: snake.cpp snake.h utils.h
+main.o: main.cpp field.h snake.h defs.h
+field.o: field.cpp field.h snake.h defs.h
+snake.o: snake.cpp snake.h defs.h
 
 .PHONY : clean
 clean :

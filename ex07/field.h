@@ -1,7 +1,7 @@
 # ifndef FIELD_H
 # define FIELD_H
 
-# include "utils.h"
+# include "defs.h"
 # include "snake.h"
 
 class Field {

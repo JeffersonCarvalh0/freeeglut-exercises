@@ -7,7 +7,7 @@ using namespace std;
 Field::Field() {
     width = WIDTH / BLOCK_SIZE;
     height = HEIGHT / BLOCK_SIZE;
-    snake = new Snake(width, height);
+    snake = nullptr;
 
     matrix = new int*[height];
     int *p = new int[width*height];
@@ -19,27 +19,32 @@ Field::Field() {
 int* Field::operator [](int idx) { return matrix[idx]; }
 
 void Field::spawnSnake() {
-    for (auto &square : snake->getBody())
-        matrix[square.y][square.x] = square.direction;
+    for (auto &square : snake->getBody()) matrix[square.y][square.x] = 1;
+    matrix[snake->getBody().back().y][snake->getBody().back().x] = 2;
     cout << "Snake spawned.\n";
 }
 
 void Field::refresh(Direction direction) {
+    int prev_x = snake->getBody().back().x, prev_y = snake->getBody().back().y;
+    int prev_tail_x = snake->getBody().front().x, prev_tail_y = snake->getBody().front().y;
     snake->move(direction);
-    int new_x = snake->getBody().front().x, new_y = snake->getBody().front().y;
+    int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
 
     if (matrix[new_y][new_x] == -1) {
         snake->grow();
-        matrix[new_y][new_x] = snake->getBody().front().direction;
         spawnFood();
-    } else if (matrix[new_y][new_x] >= UP && matrix[new_y][new_x] <= RIGHT) {
+    } else if (matrix[new_y][new_x] == 1) {
         reset();
         return;
     } else {
-        matrix[snake->getBody().back().y][snake->getBody().back().x] = 0;
-        matrix[new_x][new_y] = snake->getBody().front().direction;
+        matrix[prev_tail_y][prev_tail_x] = 0;
     }
+    matrix[new_y][new_x] = 2;
+    matrix[prev_y][prev_x] = 1;
     cout << "Field refreshed.\n";
+
+    cout << "prev_tail_x: " << prev_tail_x << '\n';
+    cout << "prev_tail_y: " << prev_tail_y << '\n';
 }
 
 void Field::spawnFood() {
