@@ -48,6 +48,7 @@ void Field::refresh(Direction direction) {
 
 void Field::spawnFood() {
     default_random_engine generator;
+    generator.seed(random_device()());
     uniform_int_distribution<int> x_axis(0, width - 1);
     uniform_int_distribution<int> y_axis(0, height - 1);
     int food_x, food_y;

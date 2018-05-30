@@ -21,10 +21,10 @@ void Snake::grow() {
     SnakeSquare tail = body.front();
     SnakeSquare new_tail(tail.x, tail.y, tail.direction);
     switch(tail.direction) {
-        case UP: new_tail.y = (new_tail.y - 1) % field_height; break;
+        case UP: if (--new_tail.y < 0) new_tail.y += field_height; break;
         case DOWN: new_tail.y = (new_tail.y + 1) % field_height; break;
         case LEFT: new_tail.x = (new_tail.x + 1) % field_width; break;
-        case RIGHT: new_tail.x = (new_tail.x - 1) % field_width; break;
+        case RIGHT: if (--new_tail.x < 0) new_tail.x += field_width; break;
     }
     body.push_front(new_tail);
     cout << "Snake grew to size " << body.size() << '\n';
