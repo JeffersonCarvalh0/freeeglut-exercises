@@ -27,6 +27,7 @@ void Field::spawnSnake() {
 void Field::refresh(Direction direction) {
     int prev_x = snake->getBody().back().x, prev_y = snake->getBody().back().y;
     int prev_tail_x = snake->getBody().front().x, prev_tail_y = snake->getBody().front().y;
+    matrix[prev_tail_y][prev_tail_x] = 0;
     snake->move(direction);
     int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
 
