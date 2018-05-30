@@ -35,8 +35,8 @@ bool Snake::move(Direction new_direction) {
     SnakeSquare new_head(head.x, head.y, new_direction);
     switch(new_direction) {
         case UP: if (head.direction == DOWN) return false; new_head.y = (new_head.y + 1) % field_height; break;
-        case DOWN: if (head.direction == UP) return false; new_head.y = (new_head.y - 1) % field_height; break;
-        case LEFT: if (head.direction == RIGHT) return false; new_head.x = (new_head.x - 1) % field_width; break;
+        case DOWN: if (head.direction == UP) return false; if (--new_head.y < 0) new_head.y += field_height;  break;
+        case LEFT: if (head.direction == RIGHT) return false; if (--new_head.x < 0) new_head.x += field_width; break;
         case RIGHT: if (head.direction == LEFT) return false; new_head.x = (new_head.x + 1) % field_width; break;
     }
     body.push_back(new_head);
