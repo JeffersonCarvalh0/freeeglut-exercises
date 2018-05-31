@@ -42,15 +42,30 @@ void display() {
     glFlush();
 }
 
-void keyPressed(unsigned char key, int x, int y) {
-    switch (key) {
-        case 'w': field.refresh(UP); break;
-        case 'a': field.refresh(LEFT); break;
-        case 's': field.refresh(DOWN); break;
-        case 'd': field.refresh(RIGHT); break;
-        case 'r': field.reset(); break;
+bool started = false;
+int start = 0;
+Direction direction = RIGHT;
+
+void animate() {
+    if (field.reseted) return;
+
+    int end = glutGet(GLUT_ELAPSED_TIME);
+    if (end - start >= SPEED) {
+        field.refresh(direction);
+        start = glutGet(GLUT_ELAPSED_TIME);
+        glutPostRedisplay();
     }
-    glutPostRedisplay();
+}
+
+void keyPressed(unsigned char key, int x, int y) {
+    if (field.reseted) field.reseted = false;
+    switch (key) {
+        case 'w': direction = UP; break;
+        case 'a': direction = LEFT; break;
+        case 's': direction = DOWN; break;
+        case 'd': direction = RIGHT; break;
+        case 'r': field.reset(); glutPostRedisplay(); break;
+    }
 }
 
 int main(int argc, char **argv) {
@@ -61,6 +76,7 @@ int main(int argc, char **argv) {
     glutCreateWindow("Snake");
     glutDisplayFunc(display);
     init();
+    glutIdleFunc(animate);
     glutKeyboardFunc(keyPressed);
     glutMainLoop();
     return 0;

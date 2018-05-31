@@ -8,12 +8,12 @@ Field::Field() {
     width = WIDTH / BLOCK_SIZE;
     height = HEIGHT / BLOCK_SIZE;
     snake = nullptr;
+    reseted = true;
 
     matrix = new int*[height];
     int *p = new int[width*height];
     for (int i = 0; i < height; ++i) matrix[i] = p + (i * width);
     reset();
-    cout << "Field created.\n";
 }
 
 int* Field::operator [](int idx) { return matrix[idx]; }
@@ -21,30 +21,29 @@ int* Field::operator [](int idx) { return matrix[idx]; }
 void Field::spawnSnake() {
     for (auto &square : snake->getBody()) matrix[square.y][square.x] = 1;
     matrix[snake->getBody().back().y][snake->getBody().back().x] = 2;
-    cout << "Snake spawned.\n";
 }
 
-void Field::refresh(Direction direction) {
+Direction Field::refresh(Direction direction) {
     int prev_x = snake->getBody().back().x, prev_y = snake->getBody().back().y;
     int prev_tail_x = snake->getBody().front().x, prev_tail_y = snake->getBody().front().y;
     Direction prev_tail_direction = snake->getBody().front().direction;
 
-    if (snake->move(direction)) {
-        matrix[prev_tail_y][prev_tail_x] = 0;
-        int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
+    direction = snake->move(direction);
+    matrix[prev_tail_y][prev_tail_x] = 0;
+    int new_x = snake->getBody().back().x, new_y = snake->getBody().back().y;
 
-        if (matrix[new_y][new_x] == -1) {
-            snake->grow(prev_tail_x, prev_tail_y, prev_tail_direction);
-            spawnFood();
-        } else if (matrix[new_y][new_x] == 1) {
-            reset();
-            return;
-        }
-
-        matrix[new_y][new_x] = 2;
-        matrix[prev_y][prev_x] = 1;
-        cout << "Field refreshed.\n";
+    if (matrix[new_y][new_x] == -1) {
+        snake->grow(prev_tail_x, prev_tail_y, prev_tail_direction);
+        spawnFood();
+    } else if (matrix[new_y][new_x] == 1) {
+        cout << "You died. Looser.\n\n";
+        reset();
+        return RIGHT;
     }
+
+    matrix[new_y][new_x] = 2;
+    matrix[prev_y][prev_x] = 1;
+    return direction;
 }
 
 void Field::spawnFood() {
@@ -60,7 +59,6 @@ void Field::spawnFood() {
     } while (matrix[food_y][food_x] != 0);
 
     matrix[food_y][food_x] = -1;
-    cout << "New food spawned.\n";
 }
 
 void Field::reset() {
@@ -70,6 +68,7 @@ void Field::reset() {
     snake = new Snake(width, height);
     spawnSnake(); spawnFood();
     cout << "Field reseted.\n";
+    reseted = true;
 }
 
 int Field::getWidth() { return width; }

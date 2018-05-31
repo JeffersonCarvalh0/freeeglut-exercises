@@ -10,10 +10,11 @@ private:
     Snake *snake;
 
 public:
+    bool reseted;
     Field();
     int* operator [](int idx);
     void spawnSnake();
-    void refresh(Direction direction);
+    Direction refresh(Direction direction);
     void spawnFood();
     void reset();
     int getWidth();
