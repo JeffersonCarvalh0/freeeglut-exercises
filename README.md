@@ -5,6 +5,8 @@
 * [ex04](ex04) - Desenhar as peças do tetris.
 * [ex05](ex05) - Desenhar uma casa.
 * [ex06](ex06) - Fazer uma peça do tetris se mover e rotacionar por comandos do teclado
+* [ex07](ex07) - Jogo da cobra
+* [ex08](ex08) - Peças do tetris se movimentando e rotacionando
 
 # Instruções
 Cada pasta tem um `.cpp` com o código fonte e um `makefile` com as instruções de compilação para o `make`. Para visualizar o exercício:
