@@ -7,6 +7,10 @@
 * [ex06](ex06) - Fazer uma peça do tetris se mover e rotacionar por comandos do teclado
 * [ex07](ex07) - Jogo da cobra
 * [ex08](ex08) - Peças do tetris se movimentando e rotacionando
+* [ex09](ex09) - Esfera em 3D
+* [ex10](ex10) - Mesa com um bule em cima
+* [ex11](ex11) - Uma esfera rotacionando em torno de outra
+* [ex12](ex12) - Tabuleiro em 3D(Semelhante ao do ex03)
 
 # Instruções
 Cada pasta tem um `.cpp` com o código fonte e um `makefile` com as instruções de compilação para o `make`. Para visualizar o exercício:
