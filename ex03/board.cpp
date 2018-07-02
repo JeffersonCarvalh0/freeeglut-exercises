@@ -36,7 +36,7 @@ void drawTable(int x, int y, int square_size, int order, float *color1, float *c
 
     for (int i = 0; i < order; ++i) {
         for (int j = 0; j < order; ++j) {
-            cur_color = last_color == color1 ? color2 : color1;
+            cur_color = !((i + j) & 1) ? color1 : color2;
             drawSquare(new_x, y, square_size, cur_color);
             new_x += square_size;
             last_color = cur_color;
