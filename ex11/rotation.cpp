@@ -13,7 +13,6 @@ const int speed = 10;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
-    glFrustum (-1.5, 1.5, -1.5, 1.5, 1.5, 20.0);
     gluLookAt(0, 0, 20, 0, 0, 0, 0, 1, 0);
 
     glRotatef(rotate, 1, 0, 0);
@@ -52,6 +51,14 @@ void animate() {
     }
 }
 
+void reshape (int width, int height) {
+    glViewport(0, 0, (GLsizei)width, (GLsizei)height); // Set our viewport to the size of our window
+    glMatrixMode(GL_PROJECTION); // Switch to the projection matrix so that we can manipulate how our scene is viewed
+    glLoadIdentity(); // Reset the projection matrix to the identity matrix so that we don't get any artifacts (cleaning up)
+    gluPerspective(60, (GLfloat)width / (GLfloat)height, 1.0, 100.0); // Set the Field of view angle (in degrees), the aspect ratio of our window, and the new and far planes
+    glMatrixMode(GL_MODELVIEW); // Switch back to the model view matrix, so that we can start drawing shapes correctly
+}
+
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
@@ -59,6 +66,7 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Table");
     glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
     glutKeyboardFunc(keyPressed);
     glutIdleFunc(animate);
     glClearColor(0.0, 0.0, 0.0, 1.0);
