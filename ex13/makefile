@@ -1,14 +1,12 @@
 CXX = g++
 LDLIBS = -lGLU -lGL -lglut
 CXXFLAGS = -std=c++11
-OBJ = system.o planet.o
+OBJ = system.o
 
-system: system.o planet.o
+system: system.o
 	$(CXX) $(CXXFLAGS) $(OBJ) -o $@ $(LDLIBS)
 
-system.o: system.cpp
-
-planet.o: planet.cpp
+system.o: system.cpp planet.hpp
 
 .PHONY : clean
 clean :

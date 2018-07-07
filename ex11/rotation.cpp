@@ -5,8 +5,6 @@
 # define HEIGHT 600
 
 int rotate = 0;
-int current_x = 15;
-int current_y = 0;
 int angle = 0;
 const int speed = 10;
 
@@ -27,7 +25,7 @@ void display() {
     // Rotating sphere
     glPushMatrix();
         glRotatef(angle, 0, 0, 1);
-        glTranslatef(current_x, current_y, 0);
+        glTranslatef(15, 0, 0);
         glutWireSphere(2, 20, 20);
     glPushMatrix();
 
