@@ -11,6 +11,7 @@
 * [ex10](ex10) - Mesa com um bule em cima
 * [ex11](ex11) - Uma esfera rotacionando em torno de outra
 * [ex12](ex12) - Tabuleiro em 3D(Semelhante ao do ex03)
+* [ex13](ex13) - Sistema solar
 
 # Instruções
 Cada pasta tem um `.cpp` com o código fonte e um `makefile` com as instruções de compilação para o `make`. Para visualizar o exercício:
