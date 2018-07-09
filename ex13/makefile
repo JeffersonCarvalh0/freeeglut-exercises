@@ -1,5 +1,5 @@
 CXX = g++
-LDLIBS = -lGLU -lGL -lglut
+LDLIBS = -lGLU -lGL -lglut -lSOIL
 CXXFLAGS = -std=c++11
 OBJ = system.o
 

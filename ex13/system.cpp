@@ -1,4 +1,5 @@
 # include <GL/glut.h>
+# include <SOIL/SOIL.h>
 # include <iostream>
 # include "planet.hpp"
 
@@ -8,43 +9,39 @@
 int rotate = 0;
 const int speed = 10;
 
-float yellow[3] = { 1, 1, 0 };
-float light_grey[3] = { 0.5, 0.5, 0.5 };
-float lavander_blush[3] = { 1, 0.941, 0.961 };
-float sky_blue[3] = { 0.529, 0.808, 0.922 };
-float tomato[3] = { 1, 0.388, 0.278 };
-float pale_goldenrod[3] = { 0.933, 0.910, 0.667 };
-float pale_turquose[3] = { 0.686, 0.933, 0.933 };
-float medium_blue[3] = { 0, 0, 0.804 };
+enum TexCodes { SUN, MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, SATURN_RING, URANUS, NEPTUNE };
 
-Planet sun(yellow, 2);
-Planet mercury(light_grey, 0.1, 3, 1200, 720);
-Planet venus(lavander_blush, 0.3, 6, 273.923, 282);
-Planet earth(sky_blue, 0.3, 9, 64.285, 173);
-Planet mars(tomato, 0.2, 12, 600, 9.228);
-Planet jupiter(pale_goldenrod, 1, 15, 156.521, 12.28);
-Planet saturn(pale_goldenrod, 0.8, 18, 138.461, 5.88, true);
-Planet uranus(pale_turquose, 0.7, 21, 90, 2.04);
-Planet neptune(medium_blue, 0.6, 24, 97.287, 1.04);
+GLuint textures[10];
+void loadGLTextures() {
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_DEPTH_TEST);
 
-void display() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity();
-    gluLookAt(0, 0, 35, 0, 0, 0, 0, 1, 0);
+    textures[SUN] = SOIL_load_OGL_texture("2k_sun.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[MERCURY] = SOIL_load_OGL_texture("2k_mercury.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[VENUS] = SOIL_load_OGL_texture("2k_venus_surface.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[EARTH] = SOIL_load_OGL_texture("2k_earth_daymap.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[MARS] = SOIL_load_OGL_texture("2k_mars.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[JUPITER] = SOIL_load_OGL_texture("2k_jupiter.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[SATURN] = SOIL_load_OGL_texture("2k_saturn.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[SATURN_RING] = SOIL_load_OGL_texture("2k_saturn_ring_alpha.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[URANUS] = SOIL_load_OGL_texture("2k_uranus.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    textures[NEPTUNE] = SOIL_load_OGL_texture("2k_neptune.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
-    glRotatef(rotate, 1, 0, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
 
-    sun.draw();
-    mercury.draw();
-    venus.draw();
-    earth.draw();
-    mars.draw();
-    jupiter.draw();
-    saturn.draw();
-    uranus.draw();
-    neptune.draw();
-
-    glFlush();
+Planet planets[9];
+void createPlanets() {
+    planets[0] = Planet(textures[SUN], 2);
+    planets[1] = Planet(textures[MERCURY], 0.1, 3, 1200, 720);
+    planets[2] = Planet(textures[VENUS], 0.3, 6, 273.923, 282);
+    planets[3] = Planet(textures[EARTH], 0.3, 9, 64.285, 173);
+    planets[4] = Planet(textures[MARS], 0.2, 12, 600, 92.28);
+    planets[5] = Planet(textures[JUPITER], 1, 15, 156.521, 12.28);
+    planets[6] = Planet(textures[SATURN], 0.8, 18, 138.461, 5.88, true);
+    planets[7] = Planet(textures[URANUS], 0.7, 21, 90, 2.04);
+    planets[8] = Planet(textures[NEPTUNE], 0.6, 24, 97.287, 1.04);
 }
 
 void keyPressed(unsigned char Key, int x, int y){
@@ -52,22 +49,23 @@ void keyPressed(unsigned char Key, int x, int y){
     glutPostRedisplay();
 }
 
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+    gluLookAt(0, 0, 35, 0, 0, 0, 0, 1, 0);
+
+    glRotatef(rotate, 1, 0, 0);
+    for (int i = 0; i < 9; ++i) planets[i].draw();
+    glFlush();
+}
+
 float start = 0;
 float total_time = 0;
-
 void animate() {
     float end = glutGet(GLUT_ELAPSED_TIME);
     if (end - start >= speed) {
         total_time += (end - start) / 1000;
-        mercury.move(total_time);
-        venus.move(total_time);
-        earth.move(total_time);
-        mars.move(total_time);
-        jupiter.move(total_time);
-        saturn.move(total_time);
-        uranus.move(total_time);
-        neptune.move(total_time);
-
+        for (int i = 0; i < 9; ++i) planets[i].move(total_time);
         start = glutGet(GLUT_ELAPSED_TIME);
         glutPostRedisplay();
     }
@@ -92,6 +90,8 @@ int main(int argc, char **argv) {
     glutKeyboardFunc(keyPressed);
     glutIdleFunc(animate);
     glClearColor(0.0, 0.0, 0.0, 1.0);
+    loadGLTextures();
+    createPlanets();
     glutMainLoop();
     return 0;
 }
