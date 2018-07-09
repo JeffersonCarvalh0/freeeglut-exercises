@@ -9,23 +9,21 @@
 int rotate = 0;
 const int speed = 10;
 
-enum TexCodes { SUN, MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, SATURN_RING, URANUS, NEPTUNE };
-
-GLuint textures[10];
+GLuint SUN, MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, SATURN_RING, URANUS, NEPTUNE;
 void loadGLTextures() {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
 
-    textures[SUN] = SOIL_load_OGL_texture("2k_sun.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[MERCURY] = SOIL_load_OGL_texture("2k_mercury.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[VENUS] = SOIL_load_OGL_texture("2k_venus_surface.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[EARTH] = SOIL_load_OGL_texture("2k_earth_daymap.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[MARS] = SOIL_load_OGL_texture("2k_mars.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[JUPITER] = SOIL_load_OGL_texture("2k_jupiter.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[SATURN] = SOIL_load_OGL_texture("2k_saturn.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[SATURN_RING] = SOIL_load_OGL_texture("2k_saturn_ring_alpha.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[URANUS] = SOIL_load_OGL_texture("2k_uranus.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    textures[NEPTUNE] = SOIL_load_OGL_texture("2k_neptune.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    SUN = SOIL_load_OGL_texture("2k_sun.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    MERCURY = SOIL_load_OGL_texture("2k_mercury.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    VENUS = SOIL_load_OGL_texture("2k_venus_surface.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    EARTH = SOIL_load_OGL_texture("2k_earth_daymap.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    MARS = SOIL_load_OGL_texture("2k_mars.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    JUPITER = SOIL_load_OGL_texture("2k_jupiter.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    SATURN = SOIL_load_OGL_texture("2k_saturn.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    SATURN_RING = SOIL_load_OGL_texture("2k_saturn_ring_alpha.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    URANUS = SOIL_load_OGL_texture("2k_uranus.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    NEPTUNE = SOIL_load_OGL_texture("2k_neptune.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -33,15 +31,15 @@ void loadGLTextures() {
 
 Planet planets[9];
 void createPlanets() {
-    planets[0] = Planet(textures[SUN], 2);
-    planets[1] = Planet(textures[MERCURY], 0.1, 3, 1200, 720);
-    planets[2] = Planet(textures[VENUS], 0.3, 6, 273.923, 282);
-    planets[3] = Planet(textures[EARTH], 0.3, 9, 64.285, 173);
-    planets[4] = Planet(textures[MARS], 0.2, 12, 600, 92.28);
-    planets[5] = Planet(textures[JUPITER], 1, 15, 156.521, 12.28);
-    planets[6] = Planet(textures[SATURN], 0.8, 18, 138.461, 5.88, true);
-    planets[7] = Planet(textures[URANUS], 0.7, 21, 90, 2.04);
-    planets[8] = Planet(textures[NEPTUNE], 0.6, 24, 97.287, 1.04);
+    planets[0] = Planet(SUN, 2);
+    planets[1] = Planet(MERCURY, 0.1, 3, 1200, 720);
+    planets[2] = Planet(VENUS, 0.3, 6, 273.923, 282);
+    planets[3] = Planet(EARTH, 0.3, 9, 64.285, 173);
+    planets[4] = Planet(MARS, 0.2, 12, 600, 92.28);
+    planets[5] = Planet(JUPITER, 1, 15, 156.521, 12.28);
+    planets[6] = Planet(SATURN, 0.8, 18, 138.461, 5.88, true, SATURN_RING);
+    planets[7] = Planet(URANUS, 0.7, 21, 90, 2.04);
+    planets[8] = Planet(NEPTUNE, 0.6, 24, 97.287, 1.04);
 }
 
 void keyPressed(unsigned char Key, int x, int y){
